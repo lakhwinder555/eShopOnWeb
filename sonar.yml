@@ -1,0 +1,47 @@
+trigger:
+ - none  
+
+pool:
+  vmImage: 'ubuntu-latest'  
+
+steps:
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.402'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Dotnet restore'
+  inputs:
+    command: restore
+    restoreSolution: 'src\services\AI\Zumlo.AI.API\Zumlo.AI.API.csproj'  
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'src\services\AI\Zumlo.AI.API\Zumlo.AI.API.csproj'
+    arguments: '--configuration Release' 
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    projects: 'src\services\AI\Zumlo.AI.API\Zumlo.AI.API.csproj'
+    arguments: '--configuration Release --output publish'
+
+- task: SonarQubePrepare@6
+  inputs:
+    SonarQube: 'sonarqube-zumlo.API'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'zumlo-team_Zumlo.API_AZIx5EMu7Ktjbnj7wU3B'
+    cliProjectName: 'Zumlo.API'
+    cliSources: '.'
+
+- task: SonarQubeAnalyze@6
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarQubePublish@6
+  inputs:
+    pollingTimeoutSec: '300'
