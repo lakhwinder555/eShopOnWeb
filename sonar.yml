@@ -1,5 +1,5 @@
 trigger:
- - none  
+ - main 
 
 pool:
   name: Devops-agent
@@ -14,18 +14,18 @@ steps:
   displayName: 'Dotnet restore'
   inputs:
     command: restore
-    restoreSolution: 'src\ApplicationCore\ApplicationCore.csproj'  
+    restoreSolution: 'src\ApplicationCore\BasketService.cs'  
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: 'src\ApplicationCore\ApplicationCore.csproj'
+    projects: 'src\ApplicationCore\BasketService.cs'
     arguments: '--configuration Release' 
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
-    projects: 'src\ApplicationCore\ApplicationCore.csproj'
+    projects: 'src\ApplicationCore\BasketService.cs'
     arguments: '--configuration Release --output publish'
 
 steps:
