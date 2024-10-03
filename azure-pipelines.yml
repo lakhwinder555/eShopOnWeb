@@ -1,17 +1,39 @@
 trigger:
-- main
+ - none  
 
 pool:
   name: Devops-agent
-
 steps:
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.402'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Dotnet restore'
+  inputs:
+    command: restore
+    restoreSolution: 'src\ApplicationCore\BasketService.cs'  
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'src\ApplicationCore\BasketService.cs'
+    arguments: '--configuration Release' 
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    projects: 'src\ApplicationCore\BasketService.cs'
+    arguments: '--configuration Release --output publish'
+
 - task: SonarQubePrepare@6
   inputs:
     SonarQube: 'sonar-qube'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'Devops_Devops_AZIivDHA8z0dVIDFaCRS'
-    cliProjectName: 'Devops'
+    cliProjectKey: 'sqa_e243274fda72a5ae605b29eb44274a33a809f99c'
     cliSources: '.'
 
 - task: SonarQubeAnalyze@6
