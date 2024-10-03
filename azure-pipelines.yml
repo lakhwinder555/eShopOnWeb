@@ -11,7 +11,7 @@ steps:
     SonarQube: 'sonar-qube'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'sqa_e243274fda72a5ae605b29eb44274a33a809f99c'
+    cliProjectKey: 'Devops_zumlo-demo_AZJSHMgFVPEliKEOG96o'
     cliSources: '.'
 
 - task: SonarQubeAnalyze@6
