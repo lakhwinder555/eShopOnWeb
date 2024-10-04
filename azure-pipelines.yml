@@ -6,6 +6,21 @@ pool:
 
 steps:
 
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.402'
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '22.0.7'
+  displayName: 'Install Node.js'
+
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'            
+    jdkArchitectureOption: 'x64'  
+    jdkSourceOption: 'PreInstalled' 
 
 - task: SonarQubePrepare@6
   inputs:
